@@ -6,10 +6,14 @@ human_dict = []
 for seq_record in SeqIO.parse("human.fa", 'fasta'):
     human_dict.append(seq_record.id)
 
+blastpLocation = input("Path to blast program: ")
+queryFileName = input("Query file name: ")
+databaseName = input("Database Name: ")
+
 blastp_cline = NcbiblastpCommandline(
-    cmd = "/Users/isaiahwang/BiomedicalDataScience/homework-3-ZayerWang/ncbi-blast-2.16.0+/bin/blastp", 
-    query = "human.fa", 
-    db = "mouse_db", 
+    cmd = blastpLocation, 
+    query = queryFileName, 
+    db = databaseName, 
     evalue = 5 * pow(10,-13), 
     matrix = "PAM30", 
     outfmt = 5,
@@ -41,7 +45,6 @@ outputFile = open("results.txt", 'w')
 index = 0
 for blast_record in blast_records:
     outputFile.write("Alignments for Human Sequence ID: " + str(human_dict[index]) + "\n")
-    numPrints = 0
     for alignment in blast_record.alignments:
         for hsp in alignment.hsps:
             split = alignment.title.split("|") 
@@ -50,9 +53,7 @@ for blast_record in blast_records:
             outputFile.write("\tCorresponding alignment: " + str(hsp.match) + "\n")
             outputFile.write("\tE-value: " + str(hsp.expect) + "\n")
             outputFile.write("\tBit Score: " + str(hsp.score) + "\n\n")
-            numPrints += 1
     
-    print(numPrints)
     index += 1
 
 
