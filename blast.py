@@ -2,13 +2,13 @@ from Bio import SeqIO
 from Bio.Blast.Applications import NcbiblastpCommandline
 from Bio.Blast import NCBIXML
 
-human_dict = []
-for seq_record in SeqIO.parse("human.fa", 'fasta'):
-    human_dict.append(seq_record.id)
-
-blastpLocation = input("Path to blast program: ")
+blastpLocation = input("blastp program path: ")
 queryFileName = input("Query file name: ")
 databaseName = input("Database Name: ")
+
+query_dict = []
+for seq_record in SeqIO.parse(queryFileName, 'fasta'):
+    query_dict.append(seq_record.id)
 
 blastp_cline = NcbiblastpCommandline(
     cmd = blastpLocation, 
@@ -44,7 +44,7 @@ outputFile = open("results.txt", 'w')
 
 index = 0
 for blast_record in blast_records:
-    outputFile.write("Alignments for Human Sequence ID: " + str(human_dict[index]) + "\n")
+    outputFile.write("Alignments for Human Sequence ID: " + str(query_dict[index]) + "\n")
     for alignment in blast_record.alignments:
         for hsp in alignment.hsps:
             split = alignment.title.split("|") 
