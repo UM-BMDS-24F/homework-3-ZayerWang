@@ -24,6 +24,8 @@ blastp_cline = NcbiblastpCommandline(
 Chose blastp as we are querying protein sequences, thus we should be using blastp (protein) instead of blastn (nucleotide)
 The set evalue and substitution matrix (1*10^-12 and PAM30) were chosen through testing.
 My goal was to output (around) 100 or less of the closest homologous sequences (if only 1 or 2 were very close, then only output those 1 or 2). 
+Additionally, I set a requirement that there should be at least one result for every query.
+
 Through testing, I found that some sequences in the query have a lot of similar matches while other has far fewer. 
 Depending on the parameters, I could get up to a range of 300 for number of sequences that met the evalue threshold.
 This was true for all the BLOSUM matrices I tested, and for any evalue with magnitude value greater than 10^-12.
