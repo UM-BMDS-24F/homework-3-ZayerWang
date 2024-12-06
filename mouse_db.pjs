@@ -1,0 +1,22 @@
+{
+  "version": "1.2",
+  "dbname": "mouse_db",
+  "dbtype": "Protein",
+  "db-version": 5,
+  "description": "mouse.fa",
+  "number-of-letters": 9929044,
+  "number-of-sequences": 17489,
+  "last-updated": "2024-12-04T14:18:00",
+  "number-of-volumes": 1,
+  "bytes-total": 13260607,
+  "bytes-to-cache": 10086534,
+  "files": [
+    "mouse_db.pdb",
+    "mouse_db.phr",
+    "mouse_db.pin",
+    "mouse_db.pot",
+    "mouse_db.psq",
+    "mouse_db.ptf",
+    "mouse_db.pto"
+  ]
+}

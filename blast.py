@@ -1,25 +1,3 @@
-from Bio import SeqIO
-from Bio.Blast.Applications import NcbiblastpCommandline
-from Bio.Blast import NCBIXML
-
-blastpLocation = input("blastp program path: ")
-queryFileName = input("Query file name: ")
-databaseName = input("Database Name: ")
-
-query_dict = []
-for seq_record in SeqIO.parse(queryFileName, 'fasta'):
-    query_dict.append(seq_record.id)
-
-blastp_cline = NcbiblastpCommandline(
-    cmd = blastpLocation, 
-    query = queryFileName, 
-    db = databaseName, 
-    evalue = 5 * pow(10,-13), 
-    matrix = "PAM30", 
-    outfmt = 5,
-    out = "blast_result.xml"
-    )
-
 '''
 Chose blastp as we are querying protein sequences, thus we should be using blastp (protein) instead of blastn (nucleotide)
 The set evalue and substitution matrix (1*10^-12 and PAM30) were chosen through testing.
@@ -37,6 +15,31 @@ PAM is usually for closely related (and global) alignments and the lower the eva
 Lots of the human and mouse protein sequences should align (globally) and so a substitution matrix that is used for high global alignment makes sense in context.
 Since these sequences should be fairly similar, we want to lower the evalue so only the highest of alignments will be presented.
 '''
+
+from Bio import SeqIO
+from Bio.Blast.Applications import NcbiblastpCommandline
+from Bio.Blast import NCBIXML
+
+#Running on local blast, please modify to so that this program can see whatever local version of blast you are using
+blastpLocation = "./ncbi-blast-2.16.0+/bin/blastp"
+queryFileName = "human.fa"
+#If you only have the mouse.fa file please the the following command to get the database processed
+#./ncbi-blast-2.16.0+/bin/makeblastdb -in mouse.fa -dbtype "prot" -out mouse_db
+databaseName = "mouse_db"
+
+query_dict = []
+for seq_record in SeqIO.parse(queryFileName, 'fasta'):
+    query_dict.append(seq_record.id)
+
+blastp_cline = NcbiblastpCommandline(
+    cmd = blastpLocation, 
+    query = queryFileName, 
+    db = databaseName, 
+    evalue = 5 * pow(10,-13), 
+    matrix = "PAM30", 
+    outfmt = 5,
+    out = "blast_result.xml"
+    )
 
 blastp_cline()
 
